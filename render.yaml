@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: aijobmatcher-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://username:password@cluster.mongodb.net/aijobmatcher
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CORS_ORIGIN
+        value: https://your-frontend-domain.vercel.app
+
+  - type: static
+    name: aijobmatcher-frontend
+    buildCommand: cd frontend && npm run build
+    staticPublishPath: frontend/build
+    routes:
+      - path: /*
+        destination: /index.html
